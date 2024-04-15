@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTT Movie App</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* header {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        } */
+        header {
+      background-color: #000;
+      color: #fff;
+      padding: 15px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    nav ul {
+      list-style-type: none;
+      margin: 0;
+      padding: 0;
+      display: flex;
+    }
+    nav ul li {
+      margin-right: 20px;
+    }
+    nav ul li a {
+      text-decoration: none;
+      color: #fff;
+      transition: color 0.3s ease;
+    }
+    nav ul li a:hover {
+      color: #ccc;
+    }
+    .search {
+      display: flex;
+    }
+    .search input[type="text"] {
+      padding: 8px;
+      border: none;
+      border-radius: 4px 0 0 4px;
+    }
+
+
+        main {
+            padding: 20px;
+        }
+
+        #movies,
+        #series,
+        #animates {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            margin-bottom: 20px;
+        }
+
+        .media {
+            margin-right: 20px;
+            cursor: pointer;
+        }
+
+        .media:last-child {
+            margin-right: 0;
+        }
+
+        .media img {
+            /* width: 200px;
+            height: auto; */
+            width: 200px; /* Set a fixed width */
+            height: 300px; /* Set a fixed height */
+            object-fit: cover; /* Maintain aspect ratio */
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .wishlist {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .wishlist h2 {
+            color: #333;
+        }
+        h3{
+            color: #fefefe;
+        }
+        body{
+            background: black;
+        }
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            color: white; /* Set default text color to white */
+        }
+
+    </style>
+
+   
+</head>
+<body>
+    <header>
+        <!-- <h1>OTT Movie App</h1> -->
+        <div class="logo">Netflix Clone</div>
+        <nav>
+            <ul>
+              <li><a href="#" class="nav-link active" data-target="home">Home</a></li>
+              <li><a href="#" class="nav-link" data-target="movies">Movies</a></li>
+              <li><a href="#" class="nav-link" data-target="tvShows">TV Shows</a></li>
+            </ul>
+          </nav>
+          <div class="search">
+        <input type="text" id="search" placeholder="Search...">
+        </div>
+    </header>
+    <main>
+        <h3> Popular Movies </h3>
+        <div id="movies">
+            <!-- <h3 >Popular Movies </h3> -->
+      
+            <!-- Movie list will be displayed here -->
+        </div>
+        <h3> Popular Series</h3>
+        <div id="series">
+            <!-- <h3 >Popular Series</h3> -->
+            <!-- Series list will be displayed here -->
+        </div>
+        <h3> Animatation Movies</h3>
+        <div id="animates">
+            <!-- <h3 >Popular Series</h3> -->
+            <!-- Series list will be displayed here -->
+        </div>
+    </main>
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <iframe id="trailer" width="560" height="315" src="" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    <!-- <div id="wishlist" class="wishlist">
+        <h2>Wishlist</h2>
+        <ul id="wishlist-items">
+            <!-- Wishlist items will be displayed here -->
+
+
+    <!-- </div> -->
+    <script>
+        const movies = [
+            { title: "God Father", type: "movie", image: "/Movie_Image/GodFather.jpg", trailerUrl: "https://www.youtube.com/embed/UaVTIH8mujA?si=P1HZtg6oTX6Ua1hB " },
+            { title: "John Wick", type: "movie", image: "/Movie_Image/John_Wick.jpg", trailerUrl: "https://www.youtube.com/embed/qEVUtrk8_B4?si=AXilkSvFQM0Ygjus" },
+            { title: "Wakanda Forever", type: "movie", image: "/Movie_Image/Wakanda_Forever.jpg", trailerUrl: "https://www.youtube.com/embed/_Z3QKkl1WyM?si=y_VOKzXvIl2lI06E" },
+            { title: "Avengers", type: "movie", image: "/Movie_Image/Avengers.jpg", trailerUrl: "https://www.youtube.com/embed/TcMBFSGVi1c?si=7y8qN2hPRpveFb_k" },
+            { title: "Gray Man", type: "movie", image: "/Movie_Image/Gray_Man.jpg", trailerUrl: "https://www.youtube.com/embed/BmllggGO4pM?si=_wPM1XVFXJtMsDlB" },
+            { title:"Dune", type: "movie", image: "/Movie_Image/Dune.jpg", trailerUrl: "https://www.youtube.com/embed/U2Qp5pL3ovA?si=RoebmOwwBm1-iCUh" },
+
+        ];
+
+        const series = [
+            { title: " Breaking Bad", type: "series", image: "/Series_Image/Breaking_Bad.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_4" },
+            { title: "GOT", type: "series", image: "/Series_Image/GOT.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_5" },
+            { title: "Hustle", type: "series", image: "/Series_Image/Hustle.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+            { title: "Peaky Blinders", type: "series", image: "/Series_Image/Peaky Blinders.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+            { title: " Strange_Things", type: "series", image: "/Series_Image/Strange_things.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+            { title: "ViKings", type: "series", image: "/Series_Image/ViKings.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+        ];
+        const animates=[
+            { title: "  Up", type: "series", image: "/AnimateMovies_Image/Up.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_4" },
+            { title: " CoCo", type: "series", image: "/AnimateMovies_Image/CoCo.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_5" },
+            { title: " despicable_me", type: "series", image: "/AnimateMovies_Image/despicable_me.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+            { title: "Kung_Fu_Panda", type: "series", image: "/AnimateMovies_Image/Kung_Fu_Panda.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+            { title: "  Spider_Man", type: "series", image: "/AnimateMovies_Image/Spider_Man.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+            { title: "Inceidbles", type: "series", image: "/AnimateMovies_Image/Inceidble.jpg", trailerUrl: "https://www.youtube.com/embed/VIDEO_ID_6" },
+
+    ]
+
+        const main = document.querySelector('main');
+        const modal = document.getElementById('modal');
+        const closeModal = document.querySelector('.close');
+        const searchInput = document.getElementById('search');
+        const wishlistItems = document.getElementById('wishlist-items');
+
+        // Function to display media
+        function displayMedia(media, containerId) {
+            const container = document.getElementById(containerId);
+            container.innerHTML = '';
+            media.forEach((item) => {
+                const mediaElem = document.createElement('div');
+                mediaElem.classList.add('media');
+                mediaElem.innerHTML = `<img src="${item.image}" alt="${item.title}"><p>${item.title}</p>`;
+                mediaElem.addEventListener('click', () => {
+                    const trailerUrl = item.trailerUrl;
+                    modal.style.display = 'block';
+                    document.getElementById('trailer').src = trailerUrl;
+                });
+                container.appendChild(mediaElem);
+            });
+        }
+
+        // Close modal when close button is clicked
+        closeModal.onclick = function() {
+            modal.style.display = "none";
+            document.getElementById('trailer').src = '';
+        }
+
+        // Close modal when user clicks outside the modal
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+                document.getElementById('trailer').src = '';
+            }
+        }
+
+        // Function to filter media by title
+        function filterMedia() {
+            const searchTerm = searchInput.value.toLowerCase();
+            const filteredMovies = movies.filter(item => item.title.toLowerCase().includes(searchTerm));
+            const filteredSeries = series.filter(item => item.title.toLowerCase().includes(searchTerm));
+            const filteredAnimate = series.filter(item => item.title.toLowerCase().includes(searchTerm));
+            displayMedia(filteredMovies, 'movies');
+            displayMedia(filteredSeries, 'series');
+            displayMedia(filteredAnimate,'animates')
+        }
+
+        // Function to add item to wishlist
+        function addToWishlist(title) {
+            const li = document.createElement('li');
+            li.textContent = title;
+            wishlistItems.appendChild(li);
+        }
+
+        // Function to handle search input
+        searchInput.addEventListener('input', filterMedia);
+
+        // Display media when the page loads
+        displayMedia(movies, 'movies');
+        displayMedia(series, 'series');
+        displayMedia(animates,'animates')
+    </script>
+</body>
+</html>

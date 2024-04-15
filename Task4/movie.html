@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Netflix Clone</title>
+    <style>
+        /* Resetting default styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        header {
+            background-color: #111;
+            padding: 20px 0;
+        }
+
+        header img {
+            height: 40px;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+        }
+
+        nav ul li {
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        .sections {
+            display: flex;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Enables momentum scrolling in iOS Safari */
+            -ms-overflow-style: none;  /* Hides scrollbar in Internet Explorer and Edge */
+            scrollbar-width: none;  /* Hides scrollbar in Firefox */
+        }
+
+        .sections::-webkit-scrollbar {
+            display: none;  /* Hides scrollbar in WebKit browsers */
+        }
+
+        .section {
+            padding: 20px;
+            white-space: nowrap;
+        }
+
+        .section h2 {
+            margin-bottom: 10px;
+        }
+
+        .container-horizontal {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch; /* Enables momentum scrolling in iOS Safari */
+            -ms-overflow-style: none;  /* Hides scrollbar in Internet Explorer and Edge */
+            scrollbar-width: none;  /* Hides scrollbar in Firefox */
+        }
+
+        .container-horizontal::-webkit-scrollbar {
+            display: none;  /* Hides scrollbar in WebKit browsers */
+        }
+
+        .item {
+            flex: 0 0 auto;
+            width: 200px;
+            margin-right: 20px;
+            white-space: normal;
+        }
+
+        footer {
+            background-color: #000;
+            color: #fff;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        /* Wishlist section */
+        .wishlist {
+            background-color: #f8f8f8;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        .wishlist-container {
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        .wishlist-container div {
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin: 10px;
+            border-radius: 5px;
+        }
+
+        .wishlist-container button {
+            margin-top: 5px;
+            background-color: #e50914;
+            color: #fff;
+            border: none;
+            padding: 5px 10px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <img src="Netflix_Logo.png" width="400px" height="400px" alt="Netflix Logo">
+            <nav>
+                <ul>
+                    <li><a href="#">Home</a></li>
+                    <li><a href="#">TV Shows</a></li>
+                    <li><a href="#">Movies</a></li>
+                    <li><a href="#" id="wishlistBtn">My List</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="sections">
+        <section class="section">
+            <div class="container">
+                <h2>Popular Movies</h2>
+                <div class="container-horizontal movies-container">
+                    <div class="item">Movie 1</div>
+                    <div class="item">Movie 2</div>
+                    <div class="item">Movie 3</div>
+                    <div class="item">Movie 4</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Popular Series</h2>
+                <div class="container-horizontal series-container">
+                    <div class="item">Series 1</div>
+                    <div class="item">Series 2</div>
+                    <div class="item">Series 3</div>
+                    <div class="item">Series 4</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="container">
+                <h2>Recommended</h2>
+                <div class="container-horizontal recommendations-container">
+                    <div class="item">Recommendation 1</div>
+                    <div class="item">Recommendation 2</div>
+                    <div class="item">Recommendation 3</div>
+                    <div class="item">Recommendation 4</div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Wishlist section -->
+    <section class="wishlist">
+        <div class="container">
+            <h2>My Wishlist</h2>
+            <div class="wishlist-container">
+                <!-- Wishlist items will be dynamically added here -->
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>Created by Your Name</p>
+        </div>
+    </footer>
+
+    <script>
+        // Array to store wishlist items
+        let wishlistItems = [];
+
+        // Function to add item to wishlist
+        function addToWishlist(item) {
+            wishlistItems.push(item);
+            displayWishlist();
+        }
+
+        // Function to remove item from wishlist
+        function removeFromWishlist(item) {
+            wishlistItems = wishlistItems.filter(wishlistItem => wishlistItem !== item);
+            displayWishlist();
+        }
+
+        // Function to display wishlist items
+        function displayWishlist() {
+            const wishlistContainer = document.querySelector('.wishlist-container');
+            wishlistContainer.innerHTML = '';
+            wishlistItems.forEach(item => {
+                const wishlistItemElement = document.createElement('div');
+                wishlistItemElement.textContent = item;
+                const removeButton = document.createElement('button');
+                removeButton.textContent = 'Remove';
+                removeButton.addEventListener('click', () => removeFromWishlist(item));
+                wishlistItemElement.appendChild(removeButton);
+                wishlistContainer.appendChild(wishlistItemElement);
+            });
+        }
+
+        // Event listeners for adding movies/series to wishlist
+        document.querySelectorAll('.item').forEach(itemElement => {
+            itemElement.addEventListener('click', () => {
+                const itemName = itemElement.textContent;
+                addToWishlist(itemName);
+            });
+        });
+
+        // Event listener for wishlist button
+        document.getElementById('wishlistBtn').addEventListener('click', () => {
+            const wishlistSection = document.querySelector('.wishlist');
+            wishlistSection.classList.toggle('active');
+        });
+
+        // Initial display of wishlist
+        displayWishlist();
+    </script>
+</body>
+</html>
